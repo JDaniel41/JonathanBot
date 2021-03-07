@@ -1,5 +1,5 @@
 from discord.ext import commands
-from cogs import Greetings
+from cogs.Greetings import Greetings
 import os
 
 TOKEN = os.environ["DISCORD_TOKEN"]
