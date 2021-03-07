@@ -12,4 +12,5 @@ bot.add_cog(Greetings(bot))
 async def on_ready():
         print(f'{bot.user.name} has connected to Discord!')
 
+print("BOT IS STARTING!")
 bot.run(TOKEN)
