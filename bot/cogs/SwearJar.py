@@ -5,7 +5,7 @@ class SwearJar(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.enabled = False
-        self.swears = ['fuck', 'shit', 'damn', 'daddy']
+        self.swears = ['fuck', 'shit', 'damn', 'kirbo', 'daddy']
     
     @commands.command(name='enable')
     async def enable_jar(self, ctx):
