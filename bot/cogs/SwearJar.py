@@ -2,10 +2,13 @@ import discord
 import discord.ext.commands as commands
 
 class SwearJar(commands.Cog):
+
+
     def __init__(self, bot):
         self.bot = bot
         self.enabled = False
         self.swears = []
+        self.allowed_users = ['RocketGoalie#2163']
 
         with open('bot/assets/swear.txt', 'r') as input_file:
             for line in input_file:
@@ -25,6 +28,13 @@ class SwearJar(commands.Cog):
 
     @commands.command(name='disable')
     async def disable_jar(self, ctx):
+        if ctx.author.name + "#" + ctx.author.discriminator not in self.allowed_users:
+            print("{} tried to disable me".format(ctx.author.name + "#" + ctx.author.discriminator))
+            print(self.allowed_users)
+            await ctx.send("Hi {}! Because of Alex you can't disable me. *dabs*".format(ctx.author))
+            return
+        
+
         if self.enabled == True:
             await ctx.send("Hi {}! I'm calling it a night for now. Swear away!".format(ctx.author))
             self.enabled = False
