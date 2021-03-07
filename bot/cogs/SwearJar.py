@@ -5,12 +5,20 @@ class SwearJar(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.enabled = False
-        self.swears = ['fuck', 'shit', 'damn', 'kirbo', 'daddy']
+        self.swears = []
+
+        with open('bot/assets/swear.txt', 'r') as input_file:
+            for line in input_file:
+                self.swears.append(line.replace('\n', ''))
+        
+        print(self.swears)
+            
     
     @commands.command(name='enable')
     async def enable_jar(self, ctx):
         if self.enabled == False:
             await ctx.send("Hi {}! Time to make sure Alex doesn't swear".format(ctx.author))
+            print("Jar enabled by {}".format(ctx.author))
             self.enabled = True
         else:
             await ctx.send("The Jar is already enabled!!!")
@@ -26,6 +34,7 @@ class SwearJar(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if self.enabled == False:
+            print("Ignoring Message \"{}\" because jar is disabled.".format(message.content))
             return
 
         if message.author == self.bot.user:
