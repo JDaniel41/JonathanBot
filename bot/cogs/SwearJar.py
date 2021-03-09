@@ -3,18 +3,16 @@ import discord.ext.commands as commands
 
 class SwearJar(commands.Cog):
 
-
     def __init__(self, bot):
         self.bot = bot
         self.enabled = False
         self.swears = []
+        self.swearLog = {}
         self.allowed_users = ['RocketGoalie#2163']
 
         with open('bot/assets/swear.txt', 'r') as input_file:
             for line in input_file:
                 self.swears.append(line.replace('\n', ''))
-        
-        print(self.swears)
             
     
     @commands.command(name='enable')
@@ -40,6 +38,11 @@ class SwearJar(commands.Cog):
             self.enabled = False
         else:
             await ctx.send("The Jar is already disabled!!!")
+    
+    @commands.command(name='swear-logs', help='Print the swear logs so we can shame foul mouths.')
+    async def print_swear_logs(self, ctx):
+        await ctx.send("Here you go!\n{}".format(self.swearLog))
+        return
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -53,7 +56,13 @@ class SwearJar(commands.Cog):
 
         for swear in self.swears:
             if swear in message.content.lower():
-                await message.channel.send("NO SWEARING {}!".format(message.author.name))
+                #await message.channel.send("NO SWEARING {}!".format(message.author.name))
+                if message.author.name not in self.swearLog:
+                    self.swearLog[message.author.name] = 1
+                else:
+                    self.swearLog[message.author.name] += 1
+                await message.channel.send("Shame Shame Shame {}".format(message.author.name))
                 break
         
         return
+
