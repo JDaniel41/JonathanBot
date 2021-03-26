@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from cogs.Greetings import Greetings
 from cogs.SwearJar import SwearJar
@@ -15,6 +16,9 @@ bot.add_cog(RandomFacts(bot))
 @bot.event
 async def on_ready():
         print(f'{bot.user.name} has connected to Discord!')
+        game = discord.Game("The Game of Life")
+        await bot.change_presence(activity=game)
+
 
 print("BOT IS STARTING!")
 bot.run(TOKEN)

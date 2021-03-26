@@ -41,7 +41,15 @@ class SwearJar(commands.Cog):
     
     @commands.command(name='swear-logs', help='Print the swear logs so we can shame foul mouths.')
     async def print_swear_logs(self, ctx):
-        await ctx.send("Here you go!\n{}".format(self.swearLog))
+        if len(self.swearLog) == 0:
+            await ctx.send("No one has sworn!")
+            return
+        
+        message = ""
+        for user in self.swearLog:
+            message += "{} has sworn {} times.\n".format(user, self.swearLog[user])
+        await ctx.send("Here you go!\n{}".format(message))
+        
         return
 
     @commands.Cog.listener()
