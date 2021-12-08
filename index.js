@@ -1,12 +1,19 @@
 const { Client, Intents } = require("discord.js");
-const TOKEN = "ODE3ODc5ODA5NDQyNDQ3NDEw.YEP77g.7N4woRwrOmHyIBBWH-DBSGQOqPU"; //process.env.DISCORD_TOKEN;
-
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const TOKEN = process.env.DISCORD_TOKEN;
+const client = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+});
 
 client.once("ready", () => {
     console.log("Ready!");
 });
 
-console.log(process.env);
-console.log(TOKEN);
+client.on("messageCreate", (message) => {
+    if (!message.author.bot && message.content.toLowerCase().includes("i'm")) {
+        const word = message.content.toLowerCase().split("i'm")[1].trim();
+        console.log(word);
+        message.channel.send(`Hi ${message.author}, I'm ${word}`);
+    }
+});
+
 client.login(TOKEN);
